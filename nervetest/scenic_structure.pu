@@ -1,0 +1,11 @@
+@startuml
+"Scene" -> "ViewPoint" : graph data
+"ViewPoint" -> "Driver" : rendering request
+"Driver" -> "画面"
+"画面" -> "Driver" : クリック入力
+"Driver" -> "ViewPoint" :
+"ViewPoint" -> "Scene"
+
+@enduml
+
+
