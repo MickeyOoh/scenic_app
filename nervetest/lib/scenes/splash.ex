@@ -15,22 +15,21 @@ defmodule Nervetest.Scene.Splash do
   require Logger
 
   @target Mix.target()
-  @target_path "/srv/erlang"
 
-  @parrot_path :code.priv_dir(:nervetest)
-               |> Path.join("/static/images/scenic_parrot.png")
-  @parrot_hash Scenic.Cache.Support.Hash.file!(@parrot_path, :sha)
+  # @parrot_path :code.priv_dir(:nervetest)
+  #              |> Path.join("/static/images/scenic_parrot.png")
+  # @parrot_hash Scenic.Cache.Support.Hash.file!(@parrot_path, :sha)
 
-  # @parrot_width 62
-  # @parrot_height 114
-  @parrot_width 410
-  @parrot_height 234
-  @graph Graph.build()
-         |> rect(
-           {@parrot_width, @parrot_height},
-           id: :parrot,
-           fill: {:image, {@parrot_hash, 0}}
-         )
+  @parrot_width 62
+  @parrot_height 114
+  # @parrot_width 410
+  # @parrot_height 234
+  # @graph Graph.build()
+  #        |> rect(
+  #          {@parrot_width, @parrot_height},
+  #          id: :parrot,
+  #          fill: {:image, {@parrot_hash, 0}}
+  #        )
 
   @animate_ms 30
   @finish_delay_ms 3000
@@ -38,7 +37,7 @@ defmodule Nervetest.Scene.Splash do
   # --------------------------------------------------------
   def init(first_scene, opts) do
     viewport = opts[:viewport]
-    
+
     # calculate the transform that centers the parrot in the viewport
     {:ok, %ViewPort.Status{size: {vp_width, vp_height}}} = ViewPort.info(viewport)
 
@@ -46,7 +45,11 @@ defmodule Nervetest.Scene.Splash do
       vp_width / 2 - @parrot_width / 2,
       vp_height / 2 - @parrot_height / 2
     }
-    {path, hash} = priv_dir(Application.get_env(:nervetest, :target))
+    path = :code.priv_dir(:nervetest)
+              |> Path.join("/static/images/scenic_parrot.png")
+    hash = Scenic.Cache.Support.Hash.file!(path, :sha)
+
+    #{path, hash} = {@parrot_path, @parrot_hash}
     Logger.debug("viewport:#{inspect viewport} image: #{path} #{inspect position}")
     # load the parrot texture into the cache
     #Scenic.Cache.Static.Texture.load(@parrot_path, @parrot_hash)
@@ -75,16 +78,6 @@ defmodule Nervetest.Scene.Splash do
     Logger.warn("splash.graph:#{inspect graph}")
     {:ok, state, push: graph}
   end
-  def priv_dir("host"), do: {@parrot_path, @parrot_hash}
-
-  def priv_dir(_target) do
-    vsn = :"0.1.0"
-    appname = to_string(:nervetest) <> "-" <> to_string(vsn)
-    path = Path.join([@target_path, "lib", appname, "priv"])
-           |> Path.join("/static/images/scenic_structure.png")
-    hash = Scenic.Cache.Support.Hash.file!(path, :sha)
-    {path, hash}
-  end
   # --------------------------------------------------------
   # A very simple animation. A timer runs, which increments a counter. The counter
   # Is applied as an alpha channel to the parrot png.
@@ -95,7 +88,6 @@ defmodule Nervetest.Scene.Splash do
       )
       when a >= 256 do
     :timer.cancel(timer)
-    IO.puts "*** file-> #{inspect @parrot_path}"
     Process.send_after(self(), :finish, @finish_delay_ms)
     {:noreply, state}
   end
@@ -106,7 +98,10 @@ defmodule Nervetest.Scene.Splash do
   end
 
   def handle_info(:animate, %{alpha: alpha, graph: graph} = state) do
-    {path, hash} = priv_dir(Application.get_env(:nervetest, :target))
+    #{path, hash} = priv_dir(Application.get_env(:nervetest, :target))
+    path = :code.priv_dir(:nervetest)
+              |> Path.join("/static/images/scenic_parrot.png")
+    hash = Scenic.Cache.Support.Hash.file!(path, :sha)
 
     graph =
       Graph.modify(

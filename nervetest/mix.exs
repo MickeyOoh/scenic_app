@@ -43,34 +43,43 @@ defmodule Nervetest.MixProject do
       {:shoehorn, "~> 0.6"},
       {:ring_logger, "~> 0.6"},
       {:toolshed, "~> 0.2"},
-      {:scenic, "~> 0.10"},
-      {:scenic_sensor, "~> 0.7"},
-      {:scenic_clock, "~> 0.10"},
-      {:picam, "~> 0.4.1"},
-      {:tzdata, "~> 1.0.3"},
+      #{:scenic, "~> 0.10"},
+      #{:scenic_sensor, "~> 0.7"},
+      #{:scenic_clock, "~> 0.10"},
+      {:scenic, path: "../scenic", targets: @all_targets},
+      {:scenic_sensor, path: "../scenic_sensor"},
+      {:scenic_clock, path: "../scenic_clock"},
+
+      {:swarm, "~> 3.4"},
+      {:syn, "~> 2.1"},
+      #{:tzdata, "~> 1.0.3"},
       ##{:nerves_time, "~> 0.3.0"}
       # Dependencies for only the :host
-      {:scenic_driver_glfw, "~> 0.10", targets: :host},
+      #{:scenic_driver_glfw, "~> 0.10", targets: :host},
 
       # Dependencies for all targets except :host
       {:nerves_runtime, "~> 0.9", targets: @all_targets},
-      {:nerves_pack, "~> 0.2", targets: @all_targets},
+      {:nerves_pack, "~> 0.4", targets: @all_targets},
 
-      ##{:scenic_driver_nerves_rpi, "~> 0.10", targets: @all_targets},
+      #{:scenic_driver_nerves_rpi, "~> 0.10", targets: @all_targets},
       {:scenic_driver_nerves_rpi, path: "../scenic_driver_nerves_rpi", targets: @all_targets},
 
       #{:scenic_driver_nerves_touch, "~> 0.10", targets: @all_targets},
       {:scenic_driver_nerves_input, path: "../scenic_driver_nerves_input", targets: @all_targets},
 
       # Dependencies for specific targets
-      #{:nerves_system_rpi3, "~> 1.11.2", runtime: false, targets: :rpi3},
       {:nerves_system_rpi3, "~> 1.12", runtime: false, targets: :rpi3},
     #   {:nerves_system_rpi3a, "~> 1.12", runtime: false, targets: :rpi3a},
     #   {:nerves_system_rpi4, "~> 1.12", runtime: false, targets: :rpi4},
     #   {:nerves_system_bbb, "~> 2.7", runtime: false, targets: :bbb},
     #   {:nerves_system_x86_64, "~> 1.12", runtime: false, targets: :x86_64},
       ##{:busybox, "~> 0.1", targets: @all_targets},
-      {:vintage_net_wifi, "~> 0.7"}    ]
+
+      # Embedded key-value database
+      #{:cubdb, "~> 0.17.0"},
+      ##{:kiosk_system_rpi3, "~> 1.10"},
+      {:iodevice, path: "../iodevice", targets: @all_targets},
+    ]
   end
 
   def release do

@@ -35,7 +35,8 @@ defmodule Scenic.Driver.Nerves.Rpi.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:scenic, "~> 0.10"},
+      ##{:scenic, "~> 0.10"},
+      {:scenic, path: "../scenic", targets: @all_targets},
       {:elixir_make, "~> 0.6", runtime: false},
       {:ex_doc, "~> 0.19", only: [:dev, :test], runtime: false}
     ]

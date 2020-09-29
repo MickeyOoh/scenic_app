@@ -187,6 +187,7 @@ defmodule Scenic.Driver.Nerves.Rpi do
   # --------------------------------------------------------
   @doc false
   def handle_cast(msg, state) do
+    #Logger.debug("driver.ex handle_cast-> msg:#{inspect msg}")
     msg
     |> do_handle(&Rpi.Graph.handle_cast(&1, state))
     |> do_handle(&Rpi.Cache.handle_cast(&1, state))
@@ -203,6 +204,8 @@ defmodule Scenic.Driver.Nerves.Rpi do
 
   # --------------------------------------------------------
   def handle_info(:flush_dirty, %{ready: true} = state) do
+    #Logger.debug("driver.ex info(:flush_dirty) ready: true")
+
     Rpi.Graph.handle_flush_dirty(state)
   end
 
@@ -235,6 +238,8 @@ defmodule Scenic.Driver.Nerves.Rpi do
 
   # --------------------------------------------------------
   def handle_info(msg, state) do
+    #Logger.debug("driver.ex info(msg: #{inspect msg}")
+
     super(msg, state)
   end
 

@@ -17,12 +17,12 @@ config :nervetest, :viewport, %{
     #   ]
     # }
 
-    %{
-      module: Scenic.Driver.Nerves.Input,
-      opts: [
-        device: "Mouse",
-      ]
-    }
+    # %{
+    #   module: Scenic.Driver.Nerves.Input,
+    #   opts: [
+    #     device: "Mouse",
+    #   ]
+    # }
 
   ]
 }

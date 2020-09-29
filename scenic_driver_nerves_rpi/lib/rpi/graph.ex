@@ -32,6 +32,8 @@ defmodule Scenic.Driver.Nerves.Rpi.Graph do
           sync_interval: sync_interval
         } = state
       ) do
+    #Logger.debug("graph.ex flush_dirty(draw) -> #{inspect sync_interval}")
+
     # IO.puts "flush BUSY"
     # already busy drawing. Try again later.
     # This is similar to skipping a frame
@@ -45,6 +47,8 @@ defmodule Scenic.Driver.Nerves.Rpi.Graph do
         } = state
       ) do
     # IO.puts "flush"
+    #Logger.debug("graph.ex flush_dirty(dirty_graphs):#{inspect dg}")
+
     state =
       dg
       |> Enum.uniq()

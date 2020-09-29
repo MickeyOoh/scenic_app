@@ -6,10 +6,11 @@ defmodule Nervetest.Application do
   @target Mix.target()
 
   require Logger;
-  
+
   use Application
 
   def start(_type, _args) do
+    #ConnectNode.start_link()
     # See https://hexdocs.pm/elixir/Supervisor.html
     # for other strategies and supported options
     opts = [strategy: :one_for_one, name: SnTest.Supervisor]
@@ -31,7 +32,8 @@ defmodule Nervetest.Application do
     Logger.debug("main_viewport_config-> #{inspect main_viewport_config}")
     [
       Nervetest.Sensor.Supervisor,
-      {Scenic, viewports: [main_viewport_config]}
+      {Scenic, viewports: [main_viewport_config]},
+      {Connect_Node, []}
     ]
   end
 end

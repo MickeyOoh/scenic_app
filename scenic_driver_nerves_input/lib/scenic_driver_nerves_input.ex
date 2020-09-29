@@ -298,15 +298,15 @@ defmodule Scenic.Driver.Nerves.Input do
   defp ev_setpos({rel_x, rel_y}, state) do
     %{mouse_x: x, mouse_y: y} = state
     {max_x, max_y} = state[:screen_size]
-    #Logger.debug("pos: {#{x}, #{y}} ")
+    Logger.debug("pos: {#{x}, #{y} <- #{rel_x}, #{rel_y}} ")
     state = %{state | mouse_x: limit_pos(x + rel_x, max_x), 
                       mouse_y: limit_pos(y + rel_y, max_y)
             }
   end
 
-  defp limit_pos(pos, _max_p) when pos < 0, do: 0.0
-  defp limit_pos(pos, max_p) when max_p < pos, do: max_p * 1.0
-  defp limit_pos(pos, _max_p), do: pos * 1.0
+  defp limit_pos(pos, _max_p) when pos < 0, do: 0
+  defp limit_pos(pos, max_p) when max_p < pos, do: max_p
+  defp limit_pos(pos, _max_p), do: pos
 
   defp send_mouse(state)
 
@@ -339,7 +339,9 @@ defmodule Scenic.Driver.Nerves.Input do
     # IO.puts "MOUSE release: #{inspect({x,y})}"
     pos = project_pos({x, y}, state)
     ViewPort.input(viewport, {:cursor_button, {:left, :release, 0, pos}})
-    %{state | mouse_x: nil, mouse_y: nil, mouse_event: nil}
+    #%{state | mouse_x: nil, mouse_y: nil, mouse_event: nil}
+    %{state | mouse_event: nil}
+
   end
 
   # send cursor_pos. no modifiers

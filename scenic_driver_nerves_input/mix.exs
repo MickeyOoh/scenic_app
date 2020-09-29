@@ -28,7 +28,8 @@ defmodule ScenicDriverNervesInput.MixProject do
   defp deps do
     [
       {:input_event, "~> 0.4"},
-      {:scenic, "~> 0.10"},
+      ##{:scenic, "~> 0.10"},
+      {:scenic, path: "../scenic", targets: @all_targets},
       {:ex_doc, "~> 0.19", only: [:dev, :test], runtime: false}
     ]
   end
@@ -47,7 +48,7 @@ defmodule ScenicDriverNervesInput.MixProject do
     [
       name: @app_name,
       contributors: ["Mikio Nishimura"],
-      maintainers: ["Boyd Multerer"],
+      maintainers: ["Mikio Nishimura"],
       #licenses: ["Apache 2"],
       #links: %{Github: @github}
     ]
